@@ -1,0 +1,80 @@
+/*
+ * program name: Advent of Code Day 1
+ * description: Advent of Code Day 1
+ * auther: DeForestt Thompson
+ */
+.needs <io>
+.needs <std>
+.needs <files>
+.needs <strings>
+.needs <Collections>
+
+.def NULL = #0
+
+
+/*
+ * function name: calculateFule
+ * description: recursivly calculates the fule required for a given mass
+ * parameters: mass - mass of the object
+ * return: fule required for the object
+ */
+int calculateFule(int mass){
+	int three = 3;
+	int fule = mass / three;
+	fule = fule - 2;
+	if(fule < 1){
+		return 0;
+	};
+	int nfule = calculatefule(fule);
+	return nfule + fule;
+};
+
+
+int main(){
+	//Read the input file
+	
+	File inputFile = openFile("input-data");
+	if( inputFile == NULL ){
+		print("Error: Could not open input file\n");
+		return 1;
+	};
+	
+	//Create a linked list to hold the input data
+	LinkedList input = newList();
+	char 20 inputBuff;
+	char 20 dumbbuff;
+	
+	// Read the input file into the linked list
+	char nl = ascii(10);
+	char cr = ascii(15);
+	int eof = inputFile.read(?inputBuff, ',', '~');
+	int ten = 10;
+	while(eof == 0){
+		int inputInt = str_toInt(?inputBuff);
+		adr inputPtr = malloc(4);
+		inputPtr =: inputInt;
+		input.append(inputPtr);
+		eof = inputFile.read(?inputBuff, ',', '~');
+	};
+
+	//Close the input file
+	inputFile.close();
+	free(inputFile);
+
+	// sum the input data
+	int sum = 0;
+	int three = 3;
+	int size = input.size();
+	int i = 0;
+	while(i < size){
+		adr ptr = input.get(i);
+		int val = ptr as int;
+		int Fule = calculateFule(val);
+		sum = sum + Fule;
+		i = i + 1;
+	};
+
+	print("Total Fule: "); printInt(sum); print("\n");
+
+	return 0;
+};
